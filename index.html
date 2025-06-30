@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://www.google.com/recaptcha/api.js?render=6Lc153ErAAAAANFubDTUKzz80stwTYq0DAi3u8fo"></script>
+    <title>Coffee Order - Refined Elegance</title>
+    <style>
+        /* Google Fonts for a more elegant feel */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #c5a47e; /* A softer, more elegant gold */
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        /* Main Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background-color: transparent;
+        }
+
+        .menu-categories {
+            display: grid;
+            grid-template-columns: 1fr; /* Simplified to a single column list */
+            gap: 20px;
+            align-items: start;
+        }
+
+        .category {
+            background-color: #1e1e1e;
+            border: 1px solid #2f2f2f;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .category:hover {
+            border-color: #c5a47e;
+        }
+        
+       /* GANTI CSS LAMA */
+
+.category-header {
+    cursor: pointer;
+    position: relative;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #e0e0e0;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 8px;
+    /* Enhanced transitions with multiple properties */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-header:hover {
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.08) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.category-header::after {
+    content: "▼";
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #c5a47e;
+    /* Enhanced arrow animation with spring effect */
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* Saat dropdown terbuka, panah berputar dengan efek bounce */
+.category-header.open::after {
+    transform: translateY(-50%) rotate(180deg) scale(1.1);
+    color: #d4b896;
+}
+
+.category-items {
+    /* Kondisi awal: tertutup dengan opacity 0 */
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 20px;
+    opacity: 0;
+    /* Gunakan cubic-bezier untuk efek yang lebih natural */
+    transition: 
+        max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        padding 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Tambahan styling untuk efek glassmorphism */
+    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+    backdrop-filter: blur(8px);
+    border-radius: 0 0 12px 12px;
+    margin-top: -8px;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-top: none;
+}
+
+/* Saat dropdown terbuka dengan animasi yang lebih smooth */
+.category-items.open {
+    max-height: 2000px; /* Tinggi maksimum yang lebih besar */
+    padding: 20px 20px 25px 20px;
+    opacity: 1;
+    /* Delay sedikit untuk opacity agar muncul setelah expand */
+    transition: 
+        max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        padding 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+}
+
+/* Tambahan: Animasi untuk item di dalam dropdown */
+.category-items > * {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-items.open > * {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered animation untuk multiple items */
+.category-items.open > *:nth-child(1) { transition-delay: 0.1s; }
+.category-items.open > *:nth-child(2) { transition-delay: 0.15s; }
+.category-items.open > *:nth-child(3) { transition-delay: 0.2s; }
+.category-items.open > *:nth-child(4) { transition-delay: 0.25s; }
+.category-items.open > *:nth-child(5) { transition-delay: 0.3s; }
+
+/* Loading state untuk transisi yang lebih halus */
+.category-header.loading::after {
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+    .category-header {
+        background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
+        border: 1px solid rgba(255,255,255,0.08);
+    }
+    
+    .category-header:hover {
+        background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 100%);
+    }
+    
+    .category-items {
+        background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+        border: 1px solid rgba(255,255,255,0.03);
+    }
+}
+
+        .menu-item {
+            background-color: #282828;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #3a3a3a;
+        }
+        .menu-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .item-name {
+            font-weight: 500;
+            font-size: 1.1rem;
+            color: #f5f5f5;
+        }
+
+        .item-price {
+            color: #c5a47e;
+            font-weight: 600;
+        }
+
+        .item-description {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        /* Customization */
+        .customization {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out, margin 0.4s ease-out;
+            padding: 0;
+            margin-top: 0;
+        }
+
+        .customization.show {
+            max-height: 500px;
+            padding: 15px 0 0 0;
+            margin-top: 15px;
+            border-top: 1px solid #3a3a3a;
+        }
+
+        .custom-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #c5a47e;
+        }
+
+        .custom-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .custom-option {
+            background-color: #333;
+            border: 1px solid #444;
+            color: #e0e0e0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .custom-option:hover {
+            background-color: #444;
+            border-color: #c5a47e;
+        }
+        
+        .custom-option.selected {
+            background-color: #c5a47e;
+            color: #121212;
+            border-color: #c5a47e;
+            font-weight: 600;
+        }
+        
+        /* Controls & Buttons */
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .quantity-btn {
+            background-color: #333;
+            color: #e0e0e0;
+            border: 1px solid #444;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            line-height: 30px;
+            transition: all 0.2s ease;
+        }
+
+        .quantity-btn:hover {
+            background-color: #c5a47e;
+            color: #121212;
+        }
+
+        .quantity-display {
+            font-weight: 500;
+            font-size: 1.1rem;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .add-to-cart {
+            background-color: #c5a47e;
+            color: #121212;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-top: 20px;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .add-to-cart:hover {
+            background-color: #d4b99a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(197, 164, 126, 0.1);
+        }
+
+        /* Cart Section */
+        .cart-section {
+            background-color: #1e1e1e;
+            border: 1px solid #2f2f2f;
+            border-radius: 12px;
+            padding: 25px;
+            height: fit-content;
+            position: sticky;
+            top: 30px;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #2f2f2f;
+        }
+
+        .cart-header h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+
+        .cart-count {
+            background-color: #c5a47e;
+            color: #121212;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .cart-items {
+            max-height: 350px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            padding: 15px 5px;
+            border-bottom: 1px solid #2f2f2f;
+            display: flex;
+            flex-direction: column;
+        }
+        .cart-item:last-child { border-bottom: none; }
+
+
+        .cart-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-name {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .cart-item-details {
+            color: #a0a0a0;
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: #c0757d;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 5px 0;
+            margin-top: 5px;
+            text-align: right;
+        }
+        .remove-item:hover { color: #e57373; }
+
+        .cart-total {
+            border-top: 1px solid #2f2f2f;
+            padding-top: 15px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #a0a0a0;
+            font-weight: 400;
+        }
+
+        .total-row.final {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #c5a47e;
+            margin-top: 10px;
+        }
+
+        .checkout-btn {
+            background-color: #c5a47e;
+            color: #121212;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1rem;
+            width: 100%;
+            transition: all 0.2s ease;
+            letter-spacing: 1px;
+        }
+
+        .checkout-btn:hover {
+            background-color: #d4b99a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(197, 164, 126, 0.15);
+        }
+
+        .checkout-btn:disabled {
+            background-color: #444;
+            color: #777;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .empty-cart {
+            text-align: center;
+            color: #777;
+            padding: 40px 20px;
+            font-weight: 300;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1e1e1e; }
+        ::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #c5a47e; }
+
+        /* CSS BARU UNTUK INPUT NAMA  */
+.customer-input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+.customer-input-group label {
+    display: block;
+    font-weight: 500;
+    color: #c5a47e;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+.customer-input-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background-color: #282828;
+    color: #e0e0e0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.customer-input-group input:focus {
+    outline: none;
+    border-color: #c5a47e;
+    box-shadow: 0 0 0 3px rgba(197, 164, 126, 0.3);
+}
+.recaptcha-notice {
+    font-size: 12px;
+    color: #888;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.recaptcha-notice a {
+    color: #aaa;
+    text-decoration: none;
+}
+.recaptcha-notice a:hover {
+    text-decoration: underline;
+}
+
+/* KODE UNTUK MENYEMBUNYIKAN LOGO RECAPTCHA */
+.grecaptcha-badge { 
+    visibility: hidden; 
+}
+/* CSS BARU UNTUK LINK INSTAGRAM YANG SUBTLE */
+.social-link-subtle {
+    text-align: left; /* Posisikan ke kiri */
+    margin-bottom: 2px; /* Jarak ke bawah */
+}
+.social-link-subtle a {
+    color: #a08d77; /* Warna abu-abu yang tidak mencolok */
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px; /* Jarak antara logo dan teks */
+    font-size: 13px; /* Ukuran font lebih kecil */
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+.social-link-subtle a:hover {
+    color: #888; /* Berubah warna saat disentuh mouse */
+}
+.social-link-subtle a svg {
+    stroke: currentColor;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🏵️ Kembang Kopi</h1>
+            <p>Crafted with passion, served with excellence</p>
+        </header>
+
+        <div class="main-content">
+            <div class="menu-section">
+                <div class="menu-categories" id="menuCategories">
+                    </div>
+            </div>
+
+            <aside class="cart-section">
+                <div class="social-link-subtle">
+        <a href="https://www.instagram.com/ikhsqnn" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+            <span>@kembangkopi</span>
+        </a>
+    </div>
+                <div class="cart-header">
+                    <h3>Your Order</h3>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+                
+                <div class="cart-items" id="cartItems">
+                    <div class="empty-cart">
+                        <p>Your cart is empty</p>
+                        <p>Add some coffee!</p>
+                    </div>
+                </div>
+
+                <div class="cart-total" id="cartTotal" style="display: none;">
+                    <div class="total-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">Rp 0</span>
+                    </div>
+                    <div class="total-row final">
+                        <span>Total</span>
+                        <span id="finalTotal">Rp 0</span>
+                    </div>
+                </div>
+
+        <div class="customer-input-group">
+    <label for="customerName">Your Name, Fill any</label>
+    <input type="text" id="customerName" placeholder="Enter your name here..." required>
+</div>
+<div class="recaptcha-notice">
+    This site is protected by reCAPTCHA and the Google
+    <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+    <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+</div>
+                <button class="checkout-btn" id="checkoutBtn" disabled onclick="checkout()">
+                    Proceed to Checkout
+                </button>
+            </aside>
+        </div>
+    </div>
+    
+    <script>
+    // ORIGINAL MENU AND CATEGORY DATA IS PRESERVED
+    const coffeeMenu = {
+        "Japanese Ice Coffee": {
+            icon: "🍵",
+            items: {
+                "Pink Honey": { price: 15000, description: "Japanese ice coffee with pink honey", customizable: false },
+                "Ethiopia Okuluu": { price: 22000, description: "Ethiopian coffee with floral notes", customizable: false },
+                "China Yunnan Catimor": { price: 20000, description: "Chinese coffee with chocolate undertones", customizable: false },
+                "Gayo Wine": { price: 16000, description: "Indonesian coffee with fruity notes", customizable: false },
+                "Merapi Wine": { price: 16000, description: "Indonesian coffee with a rich, wine-like flavor", customizable: false },
+                "Kerinci Natwal Anaerob": { price: 16000, description: "Indonesian coffee with a unique anaerobic process", customizable: false },
+                "Longberry Karo": { price: 16000, description: "Indonesian coffee with longberry beans", customizable: false },
+                "Liberika": { price: 15000, description: "Liberica coffee with a distinct flavor profile", customizable: false }
+            }
+        },
+        "Americano Cafe/Matcha": {
+            icon: "☕",
+            items: {
+                "Cafe Americano": { price: 12000, description: "Cafe Americano with hot water", customizable: false },
+                "Ice usu cha": { price: 14000, description: "Matcha blend with ice", customizable: false },
+            }
+        },
+        "Coffee Milk": {
+            icon: "🥛",
+            items: {
+                "Aren Creamy Sea Salt": { price: 12000, description: "Coffee milk with sea salt and creamy aren sugar", customizable: true },
+                "Strawberry Jasmine": { price: 13000, description: "Coffee milk with strawberry and jasmine flavors", customizable: true },
+                "Butterscotch": { price: 16000, description: "Coffee milk with butterscotch flavor", customizable: true },
+                "Caramel": { price: 16000, description: "Coffee milk with caramel flavor", customizable: true },
+                "Hazelnut": { price: 16000, description: "Coffee milk with hazelnut flavor", customizable: true },
+            }
+        },
+        "Matcha": {
+            icon: "🍵",
+            items: {
+               "Hokusai Matcha Latte": { price: 18000, description: "Matcha latte with Hokusai blend", customizable: true },
+               "Doraku Matcha Latte": { price: 20000, description: "Matcha latte with Doraku blend", customizable: true },
+               "Takezo Matcha Latte": { price: 15000, description: "Matcha latte with Takezo blend", customizable: true },
+            }
+        },
+        "Strawberry Milk": {
+            icon: "🍓",
+            items: {
+              "Strawberry Milk Strawberry": { price: 11000, description: "Fresh strawberry milk with real strawberry pieces", customizable: true },
+              "Strawberry Milk Vanilla": { price: 11000, description: "Fresh strawberry milk with vanilla flavor", customizable: true },
+              "Strawberry Milk Jasmine": { price: 11000, description: "Fresh strawberry milk with jasmine flavor", customizable: true },
+              "Strawberry Milk Manggo": { price: 11000, description: "Fresh strawberry milk with mango flavor", customizable: true }
+            }
+        }
+    };
+
+    const customizationOptions = {
+        milk: ["Regular Milk", "Oat Milk", "Almond Milk", "Soy Milk", "Coconut Milk"],
+        sugar: ["No Sugar", "1 Sugar", "2 Sugar", "3 Sugar", "Honey", "Stevia"]
+    };
+
+    let cart = [];
+
+    // GANTI FUNGSI LAMA DENGAN YANG INI
+    function toggleCategory(header) {
+        const categoryItems = header.nextElementSibling;
+        header.classList.toggle('open');
+        categoryItems.classList.toggle('open');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        generateMenu();
+        updateCartDisplay();
+    });
+
+    function generateMenu() {
+        const menuContainer = document.getElementById('menuCategories');
+        menuContainer.innerHTML = '';
+        
+        Object.keys(coffeeMenu).forEach(categoryName => {
+            const category = coffeeMenu[categoryName];
+            const categoryDiv = document.createElement('div');
+            categoryDiv.className = 'category';
+            
+            let itemsHTML = '';
+            Object.keys(category.items).forEach(itemName => {
+                const item = category.items[itemName];
+                const itemId = `${categoryName}-${itemName}`.replace(/\s+/g, '-').toLowerCase();
+                
+                let customizationHTML = '';
+                if (item.customizable) {
+                    customizationHTML = `
+                    <div class="customization" id="custom-${itemId}">
+                        <div class="custom-group">
+                            <label>Milk Type:</label>
+                            <div class="custom-options">${customizationOptions.milk.map(o => `<span class="custom-option" data-type="milk" data-value="${o}">${o}</span>`).join('')}</div>
+                        </div>
+                        <div class="custom-group">
+                            <label>Sugar Level:</label>
+                            <div class="custom-options">${customizationOptions.sugar.map(o => `<span class="custom-option" data-type="sugar" data-value="${o}">${o}</span>`).join('')}</div>
+                        </div>
+                    </div>`;
+                }
+
+                itemsHTML += `
+                <div class="menu-item">
+                    <div class="item-header">
+                        <span class="item-name">${itemName}</span>
+                        <span class="item-price">Rp ${item.price.toLocaleString()}</span>
+                    </div>
+                    <p class="item-description">${item.description}</p>
+                    ${customizationHTML}
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="changeQuantity('${itemId}', -1)">-</button>
+                        <span class="quantity-display" id="qty-${itemId}">1</span>
+                        <button class="quantity-btn" onclick="changeQuantity('${itemId}', 1)">+</button>
+                    </div>
+                    <button class="add-to-cart" onclick="handleAddToCartClick(event, '${categoryName}', '${itemName}', '${itemId}')">Add to Cart</button>
+                </div>`;
+            });
+
+            categoryDiv.innerHTML = `
+                <h3 class="category-header" onclick="toggleCategory(this)">${category.icon} ${categoryName}</h3>
+                <div class="category-items">${itemsHTML}</div>`;
+
+            menuContainer.appendChild(categoryDiv);
+        });
+        
+        addOptionListeners();
+    }
+
+    function addOptionListeners() {
+        document.querySelectorAll('.custom-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const parentGroup = this.closest('.custom-options');
+                parentGroup.querySelectorAll('.custom-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+    }
+    
+    function handleAddToCartClick(event, category, itemName, itemId) {
+        const item = coffeeMenu[category].items[itemName];
+        const customizationDiv = document.getElementById(`custom-${itemId}`);
+        
+        if (item.customizable && !customizationDiv.classList.contains('show')) {
+            customizationDiv.classList.add('show');
+            return;
+        }
+        
+        addToCart(category, itemName, itemId);
+    }
+
+    function changeQuantity(itemId, change) {
+        const qtyElement = document.getElementById(`qty-${itemId}`);
+        let currentQty = parseInt(qtyElement.textContent);
+        qtyElement.textContent = Math.max(1, currentQty + change);
+    }
+
+    function addToCart(category, itemName, itemId) {
+        const item = coffeeMenu[category].items[itemName];
+        const quantity = parseInt(document.getElementById(`qty-${itemId}`).textContent);
+        const customizationDiv = document.getElementById(`custom-${itemId}`);
+        
+        let customizations = {};
+        if (item.customizable) {
+            const milk = customizationDiv.querySelector('[data-type="milk"].selected');
+            const sugar = customizationDiv.querySelector('[data-type="sugar"].selected');
+            if (!milk || !sugar) {
+                alert('Please select your customization options.');
+                return;
+            }
+            customizations = { milk: milk.dataset.value, sugar: sugar.dataset.value };
+        }
+        
+        // --- PERUBAHAN UTAMA DI SINI ---
+        // Harga total item HANYA dihitung dari harga dasar dikali kuantitas.
+        // Opsi kustomisasi tidak menambah harga.
+        const totalItemPrice = item.price * quantity;
+
+        cart.push({
+            id: Date.now() + Math.random(),
+            name: itemName,
+            price: item.price, // Harga dasar per item
+            quantity: quantity,
+            customizations: customizations, // Hanya sebagai catatan
+            total: totalItemPrice // Total harga untuk item ini (price * qty)
+        });
+        
+        updateCartDisplay();
+        
+        document.getElementById(`qty-${itemId}`).textContent = '1';
+        if (customizationDiv) {
+            customizationDiv.classList.remove('show');
+            customizationDiv.querySelectorAll('.selected').forEach(opt => opt.classList.remove('selected'));
+        }
+    }
+
+    function removeFromCart(cartItemId) {
+        cart = cart.filter(item => item.id != cartItemId);
+        updateCartDisplay();
+    }
+
+    function updateCartDisplay() {
+        const cartItemsEl = document.getElementById('cartItems');
+        const cartCountEl = document.getElementById('cartCount');
+        const cartTotalEl = document.getElementById('cartTotal');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+        cartCountEl.textContent = totalItems;
+        
+        if (cart.length === 0) {
+            cartItemsEl.innerHTML = `<div class="empty-cart"><p>Your cart is empty.</p></div>`;
+            cartTotalEl.style.display = 'none';
+            checkoutBtn.disabled = true;
+        } else {
+            cartItemsEl.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div class="cart-item-header">
+                        <span class="cart-item-name">${item.quantity}x ${item.name}</span>
+                        <span class="cart-item-price">Rp ${(item.total).toLocaleString()}</span>
+                    </div>
+                    ${Object.keys(item.customizations).length > 0 ? 
+                        `<div class="cart-item-details">${item.customizations.milk} &middot; ${item.customizations.sugar}</div>` : ''}
+                    <button class="remove-item" onclick="removeFromCart(${item.id})">Remove</button>
+                </div>
+            `).join('');
+            cartTotalEl.style.display = 'block';
+            checkoutBtn.disabled = false;
+        }
+
+        const subtotal = cart.reduce((sum, item) => sum + item.total, 0);
+        const finalTotal = subtotal; // Total adalah subtotal, karena tidak ada pajak
+
+        document.getElementById('subtotal').textContent = `Rp ${subtotal.toLocaleString()}`;
+        document.getElementById('finalTotal').textContent = `Rp ${finalTotal.toLocaleString()}`;
+    }
+
+  // GANTI SELURUH FUNGSI LAMA ANDA DENGAN VERSI INI
+async function checkout() {
+    const customerName = document.getElementById('customerName').value;
+
+    if (cart.length === 0) {
+        alert('Your cart is empty.');
+        return;
+    }
+    if (!customerName) {
+        alert('Please enter your name.');
+        return;
+    }
+
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    checkoutBtn.disabled = true;
+    checkoutBtn.textContent = 'Processing...';
+
+    grecaptcha.ready(function() {
+        // Ganti YOUR_SITE_KEY dengan Site Key Anda
+        grecaptcha.execute('6Lc153ErAAAAANFubDTUKzz80stwTYq0DAi3u8fo', {action: 'checkout'}).then(async function(token) {
+
+            const finalTotal = cart.reduce((sum, item) => sum + item.total, 0);
+            const now = new Date();
+            const orderId = `ORD-${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
+
+            const orderData = {
+                order_id: orderId,
+                timestamp: now.toISOString(),
+                items: cart,
+                totals: {
+                    subtotal: finalTotal,
+                    total: finalTotal
+                },
+                customer: {
+                    name: customerName
+                },
+                recaptcha_token: token
+            };
+
+            try {
+                // --- LIHAT PERBEDAANNYA DI SINI ---
+                // Tidak ada lagi variabel 'n8nWebhookUrl'.
+                // Kita memanggil alamat lokal Netlify Function.
+                const response = await fetch('/.netlify/functions/submit_order', {
+                    method: 'POST',
+                    body: JSON.stringify(orderData)
+                });
+
+                if (response.ok) {
+                    const encodedData = btoa(JSON.stringify(orderData));
+                    window.location.href = `invoice.html?data=${encodedData}`;
+                } else {
+                    alert('Order failed. Please try again.');
+                    checkoutBtn.disabled = false;
+                    checkoutBtn.textContent = 'Proceed to Checkout';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Could not connect to the service.');
+                checkoutBtn.disabled = false;
+                checkoutBtn.textContent = 'Proceed to Checkout';
+            }
+        });
+    });
+}
+
+    </script>
+</body>
+</html>

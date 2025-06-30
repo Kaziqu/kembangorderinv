@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Coffee Order</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: linear-gradient(135deg, #121212 0%, #1a1a1a 50%, #0f0f0f 100%);
+            color: #e5e5e5;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .invoice-container {
+            max-width: 850px;
+            width: 100%;
+            background: rgba(25, 25, 25, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+        }
+        
+        .invoice-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #222222 100%);
+            padding: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .invoice-title {
+            font-family: 'Crimson Text', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .order-info {
+            text-align: right;
+            color: #cccccc;
+        }
+        
+        .order-id {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        
+        .order-date {
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+        
+        .billing-info {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+        }
+        
+        .billing-section h3 {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+        
+        .billing-section p {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+        
+        .invoice-body {
+            padding: 40px;
+        }
+        
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        .table-header {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 8px;
+        }
+        
+        .table-header th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+        
+        .table-header th:last-child,
+        .table-header th:nth-child(2),
+        .table-header th:nth-child(3) {
+            text-align: right;
+        }
+        
+        .item-row {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background-color 0.2s ease;
+        }
+        
+        .item-row:hover {
+            background: rgba(30, 30, 30, 0.5);
+        }
+        
+        .item-row td {
+            padding: 20px 16px;
+            vertical-align: top;
+        }
+        
+        .item-name {
+            font-weight: 500;
+            color: #f2e8d4;
+            margin-bottom: 4px;
+        }
+        
+        .item-details {
+            font-size: 0.85rem;
+            color: #b8a082;
+            font-style: italic;
+        }
+        
+        .item-price, .item-qty, .item-total {
+            text-align: right;
+            font-weight: 500;
+            color: #e8e2d4;
+        }
+        
+        .total-section {
+            background: rgba(45, 39, 28, 0.5);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 20px;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+        }
+        
+        .total-label {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #f2e8d4;
+        }
+        
+        .total-amount {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #d4a574 0%, #c8a882 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .print-button {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #c8a882 0%, #b4956f 100%);
+            color: #201c14;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            box-shadow: 0 10px 20px rgba(200, 168, 130, 0.3);
+        }
+        
+        .print-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(200, 168, 130, 0.4);
+            background: linear-gradient(135deg, #d4a574 0%, #c8a882 100%);
+        }
+        
+        .print-button:active {
+            transform: translateY(0);
+        }
+        
+        @media only screen and (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .order-info {
+                text-align: left;
+            }
+            
+            .billing-info {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .invoice-header,
+            .invoice-body {
+                padding: 24px;
+            }
+            
+            .invoice-title {
+                font-size: 2rem;
+            }
+            
+            .items-table {
+                font-size: 0.9rem;
+            }
+            
+            .table-header th,
+            .item-row td {
+                padding: 12px 8px;
+            }
+        }
+        
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .invoice-container {
+                background: white;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            .invoice-header {
+                background: #f8f9fa;
+            }
+            
+            .print-button {
+                display: none;
+            }
+            
+            .invoice-title {
+                color: #333;
+                -webkit-text-fill-color: #333;
+            }
+            
+            .total-amount {
+                color: #333;
+                -webkit-text-fill-color: #333;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <div class="invoice-header">
+            <div class="header-top">
+                <h1 class="invoice-title">Invoice</h1>
+                <div class="order-info">
+                    <div class="order-id" id="order-id">#...</div>
+                    <div class="order-date" id="order-date">...</div>
+                </div>
+            </div>
+            
+            <div class="billing-info">
+                <div class="billing-section">
+                    <h3>Billed To:</h3>
+                    <span id="customer-name">Valued Customer</span>
+                </div>
+                <div class="billing-section">
+                    <h3>From:</h3>
+                    <p>Kembang Kopi</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="invoice-body">
+            <table class="items-table">
+                <thead class="table-header">
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="invoice-items">
+                    <!-- Items will be populated by JavaScript -->
+                </tbody>
+            </table>
+            
+            <div class="total-section">
+                <div class="total-row">
+                    <span class="total-label">Grand Total</span>
+                    <span class="total-amount" id="grand-total">...</span>
+                </div>
+            </div>
+            
+            <button class="print-button" onclick="window.print()">
+                🖨️ Print Invoice
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get data from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const dataParam = urlParams.get('data');
+            
+
+            if (!dataParam) {
+                alert('No order data found!');
+                return;
+            }
+
+            try {
+                // Decode and parse JSON data
+                const decodedData = atob(dataParam);
+                const orderData = JSON.parse(decodedData);
+
+                // Display data in HTML elements
+                document.getElementById('order-id').textContent = orderData.order_id || 'N/A';
+                
+                // Format date
+                const orderDate = new Date(orderData.timestamp);
+                document.getElementById('order-date').textContent = orderDate.toLocaleDateString('id-ID', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                });
+
+                if (orderData.customer && orderData.customer.name) {
+                document.getElementById('customer-name').textContent = orderData.customer.name;
+            }
+                const itemsTbody = document.getElementById('invoice-items');
+                itemsTbody.innerHTML = '';
+
+                // Loop through each item and create table rows
+                orderData.items.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    row.className = 'item-row';
+                    
+                    let itemDetails = '';
+                    if (item.customizations && item.customizations.milk) {
+                        itemDetails = `<div class="item-details">${item.customizations.milk} • ${item.customizations.sugar}</div>`;
+                    }
+
+                    row.innerHTML = `
+                        <td>
+                            <div class="item-name">${item.name}</div>
+                            ${itemDetails}
+                        </td>
+                        <td class="item-price">Rp${item.price.toLocaleString('id-ID')}</td>
+                        <td class="item-qty">${item.quantity}</td>
+                        <td class="item-total">Rp${item.total.toLocaleString('id-ID')}</td>
+                    `;
+                    itemsTbody.appendChild(row);
+                });
+
+                document.getElementById('grand-total').textContent = `Rp${orderData.totals.total.toLocaleString('id-ID')}`;
+
+            } catch (error) {
+                console.error('Failed to parse order data:', error);
+                alert('Invalid order data format.');
+            }
+        });
+    </script>
+</body>
+</html>
