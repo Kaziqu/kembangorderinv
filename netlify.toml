@@ -1,2 +1,11 @@
+# Isi BARU untuk netlify.toml
+
+[build]
+  # Direktori publish adalah folder utama (root)
+  publish = "/"
+  # Direktori functions
+  functions = "netlify/functions/"
+
 [functions]
-  directory = "netlify/functions/"
+  # Pastikan node-fetch terinstal
+  included_files = ["node_modules/node-fetch/**"]
