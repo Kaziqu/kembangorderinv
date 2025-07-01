@@ -907,9 +907,6 @@ async function checkout() {
                 // Kita memanggil alamat lokal Netlify Function.
                 const response = await fetch('/.netlify/functions/submit_order', {
                     method: 'POST',
-                    headers: {
-                'Content-Type': 'application/json'   // ← ini penting!
-                    },
                 body: JSON.stringify(orderData)
                 });
 
