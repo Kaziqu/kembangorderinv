@@ -881,6 +881,7 @@ async function checkout() {
     grecaptcha.ready(function() {
         // Ganti YOUR_SITE_KEY dengan Site Key Anda
         grecaptcha.execute('6Lc153ErAAAAANFubDTUKzz80stwTYq0DAi3u8fo', {action: 'checkout'}).then(async function(token) {
+            console.log(('reCAPTCHA token:', token);
 
             const finalTotal = cart.reduce((sum, item) => sum + item.total, 0);
             const now = new Date();
