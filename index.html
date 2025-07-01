@@ -881,8 +881,6 @@ async function checkout() {
     grecaptcha.ready(function() {
         // Ganti YOUR_SITE_KEY dengan Site Key Anda
         grecaptcha.execute('6Lc153ErAAAAANFubDTUKzz80stwTYq0DAi3u8fo', {action: 'checkout'}).then(async function(token) {
-            console.log(('reCAPTCHA token:', token);
-
             const finalTotal = cart.reduce((sum, item) => sum + item.total, 0);
             const now = new Date();
             const orderId = `ORD-${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
